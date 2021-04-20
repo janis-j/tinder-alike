@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style type="text/css">
+        @media (min-width: 768px) {
+            .w-40 {
+                width: 30%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .w-40 {
+                width: 80%;
+            }
+        }
+    </style>
+    <title>Register</title>
+</head>
+<body class="bg-blue-200">
+<div class="container flex justify-center  mt-40 mx-auto ">
+    <form action="/register" method="post" class="bg-blue-300 w-40 p-4 shadow-2xl">
+        <div class="p-3">
+            <input type="text" class="bg-gray-200 focus:bg-white outline-none py-2 px-4 block w-full" name = "user_name"
+                   placeholder="Username">
+        </div>
+        <div class="mx-auto px-3 text-blue-700" >
+            <span>Gender</span>
+            <div class="mt-2">
+                <label class="inline-flex items-center">
+                    <input type="radio" class="form-radio" name="gender" value="male">
+                    <span class="ml-2">Male</span>
+                </label>
+                <label class="inline-flex items-center ml-6">
+                    <input type="radio" class="form-radio" name="gender" value="female">
+                    <span class="ml-2">Female</span>
+                </label>
+            </div>
+        </div>
+        <div class="p-3">
+            <input type="password" placeholder="Password" class="bg-gray-200 focus:bg-white outline-none py-2 px-4 block
+              w-full" name="password">
+        </div>
+        <div class="p-3">
+            <input type="password" placeholder="Repeat password" class="bg-gray-200 focus:bg-white outline-none py-2
+            px-4 block w-full" name = "passwordRepeat">
+        </div>
+        <div class="p-3">
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Register
+            </button>
+        </div>
+    </form>
+</div>
+<div class="container flex justify-center  mt-20 mx-auto ">
+    <p class = "font-bold text-blue-500">
+        <a href="/login">BACK
+        </a>
+    </p>
+</div>
+</body>
+</html>
