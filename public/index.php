@@ -1,6 +1,7 @@
 <?php
 
 use App\Bootstrap\RenderView;
+use App\Controllers\DatingController;
 use App\Controllers\FilesController;
 use App\Controllers\LoginController;
 use App\Controllers\LogoutController;
@@ -14,7 +15,10 @@ use App\Repositories\Persons\MYSQLPersonsRepository;
 use App\Repositories\Persons\PersonsRepository;
 use App\Repositories\Tokens\MYSQLTokensRepository;
 use App\Repositories\Tokens\TokensRepository;
+use App\Services\DatingService;
 use App\Services\LoginPersonService;
+use App\Services\ProfilePictureService;
+use App\Services\SearchPersonService;
 use App\Services\StorePersonService;
 use App\Services\TokenService;
 use App\Services\UploadFileService;
@@ -44,16 +48,29 @@ $container->add(LoginController::class, LoginController::class)
         LoginPersonService::class
         ]);
 
-$container->add(LoginPersonService::class, LoginPersonService::class)
+$container->add(DatingController::class, DatingController::class)
     ->addArguments([
-        PersonsRepository::class
-        ]);
+        RenderView::class,
+        DatingService::class
+    ]);
+
+$container->add(LoginPersonService::class, LoginPersonService::class)
+    ->addArgument(PersonsRepository::class);
+
+$container->add(ProfilePictureService::class, ProfilePictureService::class)
+    ->addArgument(ImagesRepository::class);
 
 $container->add(UploadController::class, UploadController::class)
     ->addArguments([
         RenderView::class,
         UploadFileService::class
         ]);
+
+$container->add(DatingService::class, DatingService::class)
+    ->addArguments([
+        PersonsRepository::class,
+        ImagesRepository::class
+    ]);
 
 $container->add(RegisterController::class, RegisterController::class)
     ->addArguments([
@@ -70,8 +87,15 @@ $container->add(UploadFileService::class, UploadFileService::class)
 $container->add(TokenService::class, TokenService::class)
     ->addArgument(TokensRepository::class);
 
+$container->add(SearchPersonService::class, SearchPersonService::class)
+    ->addArgument(PersonsRepository::class);
+
 $container->add(ProfileController::class, ProfileController::class)
-    ->addArgument(RenderView::class);
+    ->addArguments([
+        RenderView::class,
+        ProfilePictureService::class,
+        SearchPersonService::class
+        ]);
 
 $container->add(PersonsRepository::class, MYSQLPersonsRepository::class);
 
@@ -85,6 +109,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute(['GET'], '/login', [LoginController::class,'index']);
     $r->addRoute(['GET'], '/register', [RegisterController::class,'index']);
     $r->addRoute(['GET'], '/logout', [LogoutController::class,'index']);
+    $r->addRoute(['GET'], '/dating', [DatingController::class,'index']);
     $r->addRoute(['POST'], '/upload', [UploadController::class,'execute']);
     $r->addRoute(['POST'], '/register', [RegisterController::class,'execute']);
     $r->addRoute(['POST'], '/login', [LoginController::class,'execute']);
@@ -132,7 +157,6 @@ switch ($routeInfo[0]) {
         {
             (new $controllerMiddleware)->handle();
         }
-
         echo ($container->get($controller))->$method($vars);
         break;
 }

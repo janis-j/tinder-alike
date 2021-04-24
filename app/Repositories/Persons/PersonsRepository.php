@@ -14,5 +14,5 @@ interface PersonsRepository
 
     public function executeDescription(array $idDescription): void;
 
-    public function getPerson(string $textInput): ?Person;
+    public function getPerson(string $key, string $value): ?Person;
 }

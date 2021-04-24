@@ -15,13 +15,25 @@ class MYSQLImagesRepository implements ImagesRepository
             'database_type' => 'mysql',
             'database_name' => 'codelex',
             'server' => 'localhost',
-            'username' => '',
-            'password' => ''
+            'username' => 'janis',
+            'password' => 'Maximus21@'
         ]);
     }
 
     public function upload(Image $image): void
     {
         $this->database->insert('images_upload', $image->toArray());
+    }
+
+    public function search(string $id): array
+    {
+        return $this->database->select("images_upload", [
+            "id",
+            "user_id",
+            "original_name",
+            "path"
+        ], [
+            "{user_id}[=]" => $id
+        ]);
     }
 }

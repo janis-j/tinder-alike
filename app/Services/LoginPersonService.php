@@ -16,7 +16,7 @@ class LoginPersonService
 
     public function execute(array $logInPerson): ?Person
     {
-        $person = $this->personsRepository->getPerson($logInPerson['user_name']);
+        $person = $this->personsRepository->getPerson('user_name', $logInPerson['user_name']);
         if (isset($person)) {
             if ($person->name() === $logInPerson['user_name'] &&
                 password_verify($logInPerson['password'], $person->password())) {
@@ -26,5 +26,4 @@ class LoginPersonService
         }
         return null;
     }
-
 }

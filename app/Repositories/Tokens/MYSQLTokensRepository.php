@@ -15,8 +15,8 @@ class MYSQLTokensRepository implements TokensRepository
             'database_type' => 'mysql',
             'database_name' => 'codelex',
             'server' => 'localhost',
-            'username' => '',
-            'password' => ''
+            'username' => 'janis',
+            'password' => 'Maximus21@'
         ]);
     }
 

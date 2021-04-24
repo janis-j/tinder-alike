@@ -15,8 +15,8 @@ class MYSQLPersonsRepository implements PersonsRepository
             'database_type' => 'mysql',
             'database_name' => 'codelex',
             'server' => 'localhost',
-            'username' => '',
-            'password' => ''
+            'username' => 'janis',
+            'password' => 'Maximus21@'
         ]);
     }
 
@@ -28,12 +28,9 @@ class MYSQLPersonsRepository implements PersonsRepository
     public function getPersons(string $searchField, string $textInput): array
     {
         return $this->database->select("tinder_persons", [
-            "id",
-            "user_name",
-            "password",
-            "gender"
+            "id"
         ], [
-            "{$searchField}[=]" => $textInput
+            $searchField => $textInput
         ]);
     }
 
@@ -55,7 +52,7 @@ class MYSQLPersonsRepository implements PersonsRepository
         ]);
     }
 
-    public function getPerson(string $textInput): ?Person
+    public function getPerson(string $key, string $value): ?Person
     {
         $person = $this->database->select("tinder_persons", [
             "id",
@@ -63,7 +60,7 @@ class MYSQLPersonsRepository implements PersonsRepository
             "password",
             "gender"
         ], [
-            "user_name[=]" => $textInput
+            "{$key}[=]" => $value
         ]);
         if ($person) {
             return new Person(
